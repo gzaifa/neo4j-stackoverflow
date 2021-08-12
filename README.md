@@ -37,3 +37,25 @@ Imported:
   403463278 properties
 Peak memory usage: 1.756GiB</pre>
 ![image](https://user-images.githubusercontent.com/830693/129184861-ffa84c61-98c6-4aee-a786-a4c871d04acd.png)
+
+## Exploring the data
+### Find the Top 10 Users
+Both the Cypher commands can find the Top 10 Users, but one is faster than the other. Use EXPLAIN to see why.
+|Cypher|Operation time|
+|:---|:---|
+|MATCH (u:User)-[p:POSTED]->(:Post) RETURN u.userId, u.displayname, count(p) as numposts ORDER BY numposts DESC LIMIT 10|Started streaming 10 records after 16 ms and completed after 72087 ms|
+|MATCH (u:User) WITH u, size((u)-[:POSTED]->()) as posts ORDER BY posts desc LIMIT 10 RETURN u.userId, u.displayname, posts|Started streaming 10 records after 1 ms and completed after 6861 ms.|  
+
+But I digress, the results of both commands:  
+|"u.userId"|"u.displayname" |"numposts"|
+|---:|:---|---:|
+|"1144035" |"Gordon Linoff" |81683     |
+|"22656"   |"Jon Skeet"     |35308     |
+|"3732271" |"akrun"         |29962     |
+|"1491895" |"Barmar"        |26590     |
+|"6309"    |"VonC"          |25847     |
+|"2901002" |"jezrael"       |25089     |
+|"548225"  |"anubhava"      |24191     |
+|"115145"  |"CommonsWare"   |22354     |
+|"19068"   |"Quentin"       |22332     |
+|"29407"   |"Darin Dimitrov"|21490     |
