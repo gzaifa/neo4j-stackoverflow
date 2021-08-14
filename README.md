@@ -12,14 +12,14 @@ I downloaded the following dump files using the torrent link:
 	- Tags.xml	- 5.5 MB
 	- Users.xml	- 5.02 GB
 3. Initial graph model visualised using [arrows.app](https://arrows.app/)  
-![image](https://user-images.githubusercontent.com/830693/129159808-fda852b0-8fc0-4b7d-a122-054770498866.png)
-4. Convert to csv format for importing using the script provided:
+![image](https://user-images.githubusercontent.com/830693/129433164-10db4ced-cb96-4466-b7e0-07d79be111dc.png)
+4. Convert to csv format for importing using the script provided [python3 to_csv.py extracted]:
 	- 53086330 posts records processed in 67mins
 	- 14839629 users records processed in 10mins
 	- 61061 tag records processed
 
 	
-<pre>./bin/neo4j-admin import --multiline-fields=true  \
+<pre>./bin/neo4j-admin import --multiline-fields=true  --skip-bad-relationships \
 --nodes=Post=./import/sof/posts.csv  \
 --nodes=User=./import/sof/users.csv  \
 --nodes=Tag=./import/sof/tags.csv  \
