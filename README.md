@@ -6,7 +6,10 @@ I downloaded the following dump files using the torrent link:
 - stackoverflow.com-Tags.7z	- 733.0 MB
 
 1. Unzip the .7z Files
-	<pre>for i in *.7z; do 7za -y -oextracted x $i; done</pre>
+	```shell
+	for i in *.7z; do 7za -y -oextracted x $i; done
+	```
+	
 2. 3 xml files were extracted:
 	- Posts.xml	- 90.21GB
 	- Tags.xml	- 5.5 MB
@@ -19,7 +22,8 @@ I downloaded the following dump files using the torrent link:
 	- 61061 tag records processed
 
 	
-<pre>./bin/neo4j-admin import --multiline-fields=true  --skip-bad-relationships \
+```shell
+./bin/neo4j-admin import --multiline-fields=true  --skip-bad-relationships \
 --nodes=Post=./import/sof/posts.csv  \
 --nodes=User=./import/sof/users.csv  \
 --nodes=Tag=./import/sof/tags.csv  \
@@ -29,7 +33,7 @@ I downloaded the following dump files using the torrent link:
 --relationships=POSTED=./import/sof/users_posts_rel.csv \
 --relationships=IS_TYPE=./import/sof/posts_type_rel.csv \
 --database=sof
-</pre>
+```
   
 5. The import took 5mins on my desktop
 <pre>IMPORT DONE in 5m 2s 17ms. 
@@ -115,13 +119,15 @@ RETURN u.displayname,freq</pre>
 |"logisima"            |348   |
 
 And other categories that they are active in
-<pre>MATCH (neo:Tag {tagId:"neo4j"})<-[:HAS_TAG]-()
+<pre>
+MATCH (neo:Tag {tagId:"neo4j"})<-[:HAS_TAG]-()
       -[:PARENT_OF]->()<-[:POSTED]-(u:User) 
 WITH neo,u, count(*) as freq order by freq desc limit 10
 MATCH (u)-[:POSTED]->()<-[:PARENT_OF]-(p)-[:HAS_TAG]->(other:Tag)
 WHERE NOT (p)-[:HAS_TAG]->(neo)
 WITH u,other,count(*) AS freq2 ORDER BY freq2 DESC 
-RETURN u.displayname, collect(distinct other.tagId)[1..5] AS tags</pre>  
+RETURN u.displayname, collect(distinct other.tagId)[1..5] AS tags
+</pre>  
 |"u.displayname"       |"tags"                                                |
 |:---|:---|
 |"stdob--"             |["node.js","express","three.js","mapbox-gl-js"]       |
